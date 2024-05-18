@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  web:
+    image: odoo:17
+    container_name: 3pls-web
+    restart: unless-stopped
+    build: .
+    platform: "linux/amd64"
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+      - "8071:8071"
+      - "8072:8072"
+#    user: 1000:1000
+    volumes:
+      -
+        type: bind
+        source: ./data
+        target: /var/lib/odoo
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./modules:/mnt/extra-addons
+      - ./logs:/var/log/odoo/
+    env_file: .env
+
+  db:
+    image: postgres:14
+    container_name: 3pls-db
+    restart: unless-stopped
+#    user: ${PSQL_UID}:${PSQL_GID}
+    environment:
+#      POSTGRES_DB: ${DB_NAME}
+#      POSTGRES_USER: ${USER}
+#      POSTGRES_PASSWORD: ${PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    env_file: .env
+    ports:
+      - "5432:5432"
+    volumes:
+      -
+        type: bind
+        source: ./postgresql
+        target: /var/lib/postgresql/data

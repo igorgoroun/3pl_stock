@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_3pl_stock_picking_form" model="ir.ui.view">
+        <field name="name">view.3pl.stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="partner_representative_name" />
+                <field name="partner_representative_tel" />
+            </field>
+            <field name="owner_id" position="after">
+                <field name="api_uuid"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_issue_invoice_for_transfers" model="ir.actions.server">
+        <field name="name">Виставити рахунок</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="state">code</field>
+        <field name="code">
+            records.issue_logistics_invoice()
+        </field>
+    </record>
+</odoo>

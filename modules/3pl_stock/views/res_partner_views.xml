@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_3pl_stock_partner_form" model="ir.ui.view">
+            <field name="name">view.3pl.stock.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="3pl_api" string="3PL API Configuration">
+                        <group>
+                            <field name="api_connected" widget="boolean_toggle"/>
+                            <field name="api_login" invisible="not api_connected"/>
+                            <field name="api_key" password="True" invisible="not api_connected"/>
+                        </group>
+                    </page>
+                </xpath>
+                <field name="vat" position="after">
+                    <field name="main_location_id" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
